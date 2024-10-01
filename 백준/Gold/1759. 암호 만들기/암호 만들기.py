@@ -1,39 +1,24 @@
-# 모음 리스트
-vows = ['a', 'e', 'i', 'o', 'u']
-choose = []
+# 라이브러리 활용
+from itertools import combinations
 
-# 모음의 개수는 1개 이상, 자음의 개수는 2개 이상
-def is_possible():
-	global L, C, choose, arr
+vows = ['a', 'e', 'i', 'o', 'u']
+
+def is_possible(word):
+	global L, C, arr
 
 	vow = 0
-	for c in choose:
-		vow += (c in vows)
-	con = L - vow
+	for w in word:
+		vow += (w in vows)
+	conv = L - vow
 
-	return (vow >= 1 and con >= 2)
-
-# 조합 알고리즘
-def comb(index, level):
-	global L, C, choose, arr
-
-	# Base case
-	if level == L:
-		if is_possible():
-			print(''.join(choose))
-		return
-
-	# Recursive case
-	for i in range(index, C):
-		choose.append(arr[i])
-		comb(i + 1, level + 1)
-		choose.pop()
-
+	return (vow >= 1 and conv >= 2)
 
 
 L, C = map(int, input().split())
 arr = input().split()
-# 정렬 필요
+
 arr.sort()
 
-comb(0,0)
+for word in combinations(arr, L):
+	if is_possible(word):
+		print(''.join(word))
